@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Browse the made-to-order western wear collection from Taara's Closet.">
+    <title>Collection | Taara&rsquo;s Closet</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <header class="site-header">
+        <a class="brand" href="index.html">Taara&rsquo;s <span>Closet</span></a>
+        <nav aria-label="Primary navigation">
+            <a class="active" href="collection.html" aria-current="page">Collection</a>
+            <a href="fabrics.html">Fabric Edit</a>
+        </nav>
+    </header>
+
+    <main>
+        <section class="page-heading">
+            <p class="eyebrow">The collection</p>
+            <h1>Designed to be made your own.</h1>
+            <p>Use these pieces as a starting point, then browse the <a href="fabrics.html">Fabric Edit</a> to choose the print or colourway for yours.</p>
+        </section>
+        <section class="gallery" aria-label="Apparel collection"></section>
+    </main>
+
+    <footer>
+        <a class="whatsapp-link" href="https://wa.me/919310107705" target="_blank" rel="noopener noreferrer">Enquire on WhatsApp <span aria-hidden="true">↗</span></a>
+        <p>Taara&rsquo;s Closet <span>·</span> Made with intention</p>
+    </footer>
+    <script>
+        const garments = [
+            'Blue co-ord set with V-neck detailing.', 'Blue and white printed co-ord set.', 'Green foliage print co-ord set.',
+            'Relaxed ivory co-ord set.', 'Soft blue wrap dress.', 'Black floral day dress.',
+            'Printed shirt and trouser set.', 'Pink polka-dot lounge set.', 'Teal printed wrap dress.',
+            'Paisley peplum top.', 'Mint textured peplum top.', 'Tailored neutral co-ord set.',
+            'Blue floral shirt.', 'Cream printed co-ord set.', 'Blue floral co-ord set.',
+            'Polka-dot peplum top.', 'Pink ombré co-ord set.', 'Dark floral co-ord set.'
+        ];
+        const gallery = document.querySelector('.gallery');
+        garments.forEach((description, index) => {
+            const number = String(index + 1).padStart(2, '0');
+            const card = document.createElement('article');
+            card.className = 'gallery-item';
+            card.innerHTML = `<img src="assets/images/apparel_${number}.jpg" alt="${description}"><p>${description}</p>`;
+            gallery.appendChild(card);
+        });
+    </script>
+</body>
+</html>

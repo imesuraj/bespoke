@@ -1,0 +1,4 @@
+catalogue_data/
+.venv/
+__pycache__/
+assets/*contact-sheet.jpg
