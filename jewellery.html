@@ -1,0 +1,10 @@
+<!DOCTYPE html>
+<html lang="en">
+<head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="description" content="Browse jewellery at Taara's Closet."><title>Jewellery | Taara&rsquo;s Closet</title><link rel="stylesheet" href="css/style.css"></head>
+<body>
+    <header class="site-header"><a class="brand" href="index.html">Taara&rsquo;s <span>Closet</span></a><nav aria-label="Primary navigation"><a href="collection.html">Apparel</a><a class="active" href="jewellery.html" aria-current="page">Jewellery</a></nav></header>
+    <main><section class="page-heading"><p class="eyebrow">The jewellery edit</p><h1>Finishing touches, chosen beautifully.</h1><p>Explore earrings and statement pieces to complement your favourite looks.</p></section><section class="gallery jewellery-gallery" aria-label="Jewellery collection"></section></main>
+    <footer><a class="whatsapp-link" href="https://wa.me/919310107705" target="_blank" rel="noopener noreferrer">Enquire on WhatsApp <span aria-hidden="true">&nearr;</span></a><p>Taara&rsquo;s Closet <span>&middot;</span> Crafted with care, just for you!</p></footer>
+    <script>const gallery=document.querySelector('.gallery');for(let i=1;i<=51;i++){const n=String(i).padStart(2,'0');const card=document.createElement('article');card.className='gallery-item';card.innerHTML=`<img src="assets/jewellery/jewellery_${n}.jpg" alt="Jewellery piece ${n}" loading="lazy"><p>Jewellery ${n}</p>`;gallery.appendChild(card);}</script>
+</body>
+</html>

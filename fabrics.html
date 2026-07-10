@@ -1,43 +1,10 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Browse fabric options for your bespoke piece.">
-    <title>Fabric Edit | Taara&rsquo;s Closet</title>
-    <link rel="stylesheet" href="css/style.css">
-</head>
+<head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="description" content="Browse western-wear fabrics at Taara's Closet."><title>Fabric Edit | Taara&rsquo;s Closet</title><link rel="stylesheet" href="css/style.css"></head>
 <body>
-    <header class="site-header">
-        <a class="brand" href="index.html">Taara&rsquo;s <span>Closet</span></a>
-        <nav aria-label="Primary navigation">
-            <a href="collection.html">Collection</a>
-            <a class="active" href="fabrics.html" aria-current="page">Fabric Edit</a>
-        </nav>
-    </header>
-
-    <main>
-        <section class="page-heading fabric-heading">
-            <p class="eyebrow">The fabric edit</p>
-            <h1>Choose a print that feels like you.</h1>
-            <p>A selection of prints and colourways available for bespoke pieces. Fabric availability changes, so please quote the fabric number when you enquire.</p>
-        </section>
-        <section class="fabric-grid" aria-label="Available fabric options"></section>
-    </main>
-
-    <footer>
-        <a class="whatsapp-link" href="https://wa.me/919310107705" target="_blank" rel="noopener noreferrer">Enquire on WhatsApp <span aria-hidden="true">↗</span></a>
-        <p>Taara&rsquo;s Closet <span>·</span> Made with intention</p>
-    </footer>
-    <script>
-        const fabricGrid = document.querySelector('.fabric-grid');
-        for (let i = 1; i <= 70; i++) {
-            const number = String(i).padStart(2, '0');
-            const item = document.createElement('article');
-            item.className = 'fabric-card';
-            item.innerHTML = `<img src="assets/fabrics/fabric_${number}.jpg" alt="Fabric option ${number}" loading="lazy"><p>Fabric ${number}</p>`;
-            fabricGrid.appendChild(item);
-        }
-    </script>
+    <header class="site-header"><a class="brand" href="index.html">Taara&rsquo;s <span>Closet</span></a><nav aria-label="Primary navigation"><a class="active" href="collection.html">Apparel</a><a href="jewellery.html">Jewellery</a></nav></header>
+    <main><section class="page-heading fabric-heading"><p class="eyebrow">Western wear / Fabric edit</p><h1>Choose a print that feels like you.</h1><p>These prints and colourways are available for western-wear pieces. Please quote the fabric number when you enquire.</p></section><section class="fabric-grid" aria-label="Western wear fabric options"></section></main>
+    <footer><a class="whatsapp-link" href="https://wa.me/919310107705" target="_blank" rel="noopener noreferrer">Enquire on WhatsApp <span aria-hidden="true">&nearr;</span></a><p>Taara&rsquo;s Closet <span>&middot;</span> Crafted with care, just for you!</p></footer>
+    <script>const fabricGrid=document.querySelector('.fabric-grid');for(let i=1;i<=72;i++){const n=String(i).padStart(2,'0');const item=document.createElement('article');item.className='fabric-card';item.innerHTML=`<img src="assets/apparel/western/fabrics/fabric_${n}.jpg" alt="Western-wear fabric option ${n}" loading="lazy"><p>Fabric ${n}</p>`;fabricGrid.appendChild(item);}</script>
 </body>
 </html>

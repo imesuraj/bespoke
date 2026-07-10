@@ -1,54 +1,72 @@
-import os
-import hashlib
-from PIL import Image
+"""Prepare catalogue images for the static site.
 
-# Define source and destination folders
-source_dir = r'catalogue_data'
-dest_dir = r'assets/images'
-shades_dir = os.path.join(source_dir, 'shades')
-fabrics_dir = r'assets/fabrics'
+Source folders are kept out of Git; the generated assets/ folders are published
+to GitHub Pages. Run this script after adding source images.
+"""
 
-if not os.path.exists(dest_dir):
-    os.makedirs(dest_dir)
+from hashlib import md5
+from pathlib import Path
 
-# Get catalogue images and sort them
-files = sorted([f for f in os.listdir(source_dir) if f.lower().endswith(('.jpg', '.jpeg', '.png'))])
+from PIL import Image, ImageOps
 
-for i, filename in enumerate(files):
-    old_path = os.path.join(source_dir, filename)
 
-    # Generate a new name
-    new_name = f"apparel_{i+1:02d}.jpg"
-    new_path = os.path.join(dest_dir, new_name)
+SOURCE = Path("catalogue_data")
+ASSETS = Path("assets")
+IMAGE_SUFFIXES = {".jpg", ".jpeg", ".png"}
 
-    # Process
-    with Image.open(old_path) as img:
-        # Check for screenshot (based on inspection, it was 09.34.36)
-        if "09.34.36.jpeg" in filename:
-            width, height = img.size
-            img = img.crop((0, 150, width, height - 150))
-            print(f"Cropped {filename}")
+# The two loose source files that are fabric swatches rather than western-wear
+# references. New source images should be placed directly in the right folder.
+ROOT_FABRICS = {
+    "WhatsApp Image 2026-07-10 at 14.24.27 (1).jpeg",
+    "WhatsApp Image 2026-07-10 at 15.09.00.jpeg",
+}
 
-        img.save(new_path, "JPEG")
-        print(f"Saved {new_name}")
 
-# Export fabric options separately. Catalogue data is ignored by Git, but assets are
-# published with GitHub Pages. Exact duplicate source files are excluded.
-if not os.path.exists(fabrics_dir):
-    os.makedirs(fabrics_dir)
+def image_files(folder: Path) -> list[Path]:
+    return sorted(
+        (file for file in folder.iterdir() if file.suffix.lower() in IMAGE_SUFFIXES),
+        key=lambda file: file.name.lower(),
+    )
 
-seen = set()
-shade_files = sorted(f for f in os.listdir(shades_dir) if f.lower().endswith(('.jpg', '.jpeg', '.png')))
-fabric_number = 1
-for filename in shade_files:
-    old_path = os.path.join(shades_dir, filename)
-    file_hash = hashlib.md5(open(old_path, 'rb').read()).hexdigest()
-    if file_hash in seen:
-        continue
-    seen.add(file_hash)
-    new_path = os.path.join(fabrics_dir, f"fabric_{fabric_number:02d}.jpg")
-    with Image.open(old_path) as img:
-        img.convert('RGB').save(new_path, "JPEG", quality=88, optimize=True)
-    fabric_number += 1
 
-print(f"Saved {fabric_number - 1} unique fabric options")
+def export_images(files: list[Path], destination: Path, prefix: str, deduplicate: bool = False) -> int:
+    """Export a numbered JPEG set, optionally skipping exact duplicate sources."""
+    destination.mkdir(parents=True, exist_ok=True)
+    seen_hashes = set()
+    number = 1
+
+    for source in files:
+        source_hash = md5(source.read_bytes()).hexdigest()
+        if deduplicate and source_hash in seen_hashes:
+            continue
+        seen_hashes.add(source_hash)
+
+        target = destination / f"{prefix}_{number:02d}.jpg"
+        with Image.open(source) as image:
+            ImageOps.exif_transpose(image).convert("RGB").save(target, "JPEG", quality=88, optimize=True)
+        number += 1
+
+    return number - 1
+
+
+root_files = image_files(SOURCE)
+root_fabric_files = [file for file in root_files if file.name in ROOT_FABRICS]
+root_western_files = [file for file in root_files if file.name not in ROOT_FABRICS]
+
+western_files = image_files(SOURCE / "apparel" / "western") + root_western_files
+preferred_fabric_directory = SOURCE / "apparel" / "western" / "fabric"
+legacy_fabric_directory = SOURCE / "apparel" / "western" / "shades"
+fabric_directory = preferred_fabric_directory if preferred_fabric_directory.exists() else legacy_fabric_directory
+fabric_files = image_files(fabric_directory) + root_fabric_files
+indian_files = image_files(SOURCE / "apparel" / "indian")
+jewellery_files = image_files(SOURCE / "jewellery")
+
+western_count = export_images(western_files, ASSETS / "apparel" / "western", "western")
+fabric_count = export_images(fabric_files, ASSETS / "apparel" / "western" / "fabrics", "fabric", deduplicate=True)
+indian_count = export_images(indian_files, ASSETS / "apparel" / "indian", "indian")
+jewellery_count = export_images(jewellery_files, ASSETS / "jewellery", "jewellery")
+
+print(f"Western wear: {western_count}")
+print(f"Western fabrics: {fabric_count}")
+print(f"Indian wear: {indian_count}")
+print(f"Jewellery: {jewellery_count}")

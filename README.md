@@ -1,49 +1,48 @@
 # Taara's Closet
 
-A static GitHub Pages website for **Taara's Closet**, showcasing made-to-order western wear and available fabric options.
+A static GitHub Pages catalogue for apparel and jewellery from **Taara's Closet**.
 
-## Pages
+## Site structure
 
-- `index.html` — home page and introduction to the bespoke process
-- `collection.html` — apparel collection
-- `fabrics.html` — **Fabric Edit**, a numbered gallery of available prints and colourways
+- `index.html` — home page
+- `collection.html` — Apparel landing page
+- `western.html` — Western wear collection
+- `fabrics.html` — Fabric Edit for western wear only
+- `indian.html` — Indian wear collection
+- `jewellery.html` — Jewellery collection
 
-Customers can use the WhatsApp enquiry links to contact Taara's Closet. When enquiring about a fabric, they should quote its displayed fabric number.
+Customers can enquire on WhatsApp at **+91 93101 07705**. For western-wear fabric enquiries, quote the displayed fabric number.
 
-## Images
+## Image workflow
 
-The live website serves images from `assets/`:
+Source images are kept in `catalogue_data/` and ignored by Git. The website publishes the processed image sets in `assets/`:
 
-- `assets/images/` — apparel images used on the collection page
-- `assets/fabrics/` — fabric images used on the Fabric Edit page
+| Source folder | Published folder | File prefix |
+| --- | --- | --- |
+| `catalogue_data/apparel/western/` | `assets/apparel/western/` | `western_` |
+| `catalogue_data/apparel/western/fabric/` | `assets/apparel/western/fabrics/` | `fabric_` |
+| `catalogue_data/apparel/indian/` | `assets/apparel/indian/` | `indian_` |
+| `catalogue_data/jewellery/` | `assets/jewellery/` | `jewellery_` |
 
-`catalogue_data/` is the local source folder and is intentionally ignored by Git. It is not published to GitHub Pages.
+Run the processor after adding images:
 
-### Add or replace images
+```powershell
+.\.venv\Scripts\python.exe process_images.py
+```
 
-1. Put source apparel images in `catalogue_data/`.
-2. Put source fabric images in `catalogue_data/shades/`.
-3. Run the processor:
+Then update the matching loop limit in `western.html`, `fabrics.html`, `indian.html`, or `jewellery.html` if the number printed by the script changes. Commit the generated `assets/` files and push to `main`.
 
-   ```powershell
-   .\.venv\Scripts\python.exe process_images.py
-   ```
-
-4. Update the `garments` descriptions in `collection.html` for new apparel images.
-5. If the number of generated fabric images changes, update the loop limit in `fabrics.html` (currently `70`).
-6. Commit the generated `assets/images/` and `assets/fabrics/` files, then push to `main`.
-
-> Running `process_images.py` regenerates the files in `assets/images/`. If you manually retouch an image there, copy the final version to `catalogue_data/` first, or do not run the processor again.
+The current source folder is named `shades/`; the processor supports it as a legacy fallback. Rename it to `fabric/` when convenient for the structure above.
 
 ## Local setup
-
-The image processor requires Python 3 and Pillow:
 
 ```powershell
 python -m venv .venv
 .\.venv\Scripts\pip install Pillow
 ```
 
+`.venv/` and `catalogue_data/` are intentionally excluded from Git.
+
 ## Deployment
 
-Configure GitHub Pages to deploy from the `main` branch and the repository root (`/`). After pushing, allow the Pages deployment to finish, then hard-refresh the browser (`Ctrl+F5`) if an older version is cached.
+Configure GitHub Pages to deploy from the `main` branch and repository root (`/`). After pushing, wait for the Pages deployment and hard-refresh (`Ctrl+F5`) if the browser shows a cached version.
