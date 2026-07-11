@@ -54,10 +54,7 @@ root_fabric_files = [file for file in root_files if file.name in ROOT_FABRICS]
 root_western_files = [file for file in root_files if file.name not in ROOT_FABRICS]
 
 western_files = image_files(SOURCE / "apparel" / "western") + root_western_files
-preferred_fabric_directory = SOURCE / "apparel" / "western" / "fabric"
-legacy_fabric_directory = SOURCE / "apparel" / "western" / "shades"
-fabric_directory = preferred_fabric_directory if preferred_fabric_directory.exists() else legacy_fabric_directory
-fabric_files = image_files(fabric_directory) + root_fabric_files
+fabric_files = image_files(SOURCE / "apparel" / "western" / "fabrics") + root_fabric_files
 indian_files = image_files(SOURCE / "apparel" / "indian")
 jewellery_files = image_files(SOURCE / "jewellery")
 

@@ -32,8 +32,6 @@ Run the processor after adding images:
 
 Then update the matching loop limit in `western.html`, `fabrics.html`, `indian.html`, or `jewellery.html` if the number printed by the script changes. Commit the generated `assets/` files and push to `main`.
 
-The current source folder is named `shades/`; the processor supports it as a legacy fallback. Rename it to `fabric/` when convenient for the structure above.
-
 ## Local setup
 
 ```powershell
